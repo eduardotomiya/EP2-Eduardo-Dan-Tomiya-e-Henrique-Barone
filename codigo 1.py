@@ -15,3 +15,18 @@ def inicializa(lista):
     dic['especuladas'] = []
     dic['sorteada'] = random.choice(lista)
     return dica
+
+def inidica_posicao(sorteada,string):
+    i = 0
+    lista1 = []
+    if len(sorteada) != len(string):
+        return []
+    while i < len(string):
+        if string[i] == sorteada[i]:
+            lista1.append(0)
+        elif string[i] in sorteada:
+            lista1.append(1)
+        elif string[i] not in sorteada:
+            lista1.append(2)
+        i += 1
+    return lista1
