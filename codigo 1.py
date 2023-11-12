@@ -30,3 +30,17 @@ def inidica_posicao(sorteada,string):
             lista1.append(2)
         i += 1
     return lista1
+
+def jogo():
+    palavras=[]
+    palavra_valida=input(palavras,5)
+
+    if not palavra_valida:
+        print("Não há palavras válidas.")
+        return
+    
+    jogar=input(palavra_valida)
+
+    while jogar['tentativas']>0:
+        tentativas=input(f"Tentativa {len(jogar['especuladas']) + 1}/{len(jogar['sorteada']) + 1}: ").lower()
+
