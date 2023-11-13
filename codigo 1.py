@@ -1,12 +1,9 @@
+from lista import lista_palavras
 from colorama import init, Fore
 import random
 import colorama
 
-
 colorama.init()
-
-print(f' ===========================\n|                           |\n| Bem-vindo ao Insper Termo |\n|                           |\n ==== Design de Software === \n\nComandos: desisto\n\n Regras:\n\n  - Você tem {Fore.RED}6{Fore.RESET} tentativas para acertar uma palavra aleatória de 5 letras.\n  - A cada tentativa, a palavra testada terá suas letras coloridas conforme:\n    . {Fore.BLUE}Azul{Fore.RESET}   : a letra está na posição correta;\n    . {Fore.YELLOW}Amarelo{Fore.RESET}: a palavra tem a letra, mas está na posição errada;\n    . Branco : a palavra não tem a letra.\n  - Os acentos são ignorados;\n  - As palavras podem possuir letras repetidas.\n\nSorteando uma palavra...\nJá tenho uma palavra! Tente adivinhá-la!\n\nVocê tem 6 tentaviva(s)')
-
 
 def filtra(lista, n):
     lista1 = []
@@ -16,7 +13,6 @@ def filtra(lista, n):
                 lista1.append(palavra.lower())
     return lista1
 
-
 def inicializa(lista):
     dic = {}
     dic['n'] = len(lista[0])
@@ -24,7 +20,6 @@ def inicializa(lista):
     dic['especuladas'] = []
     dic['sorteada'] = random.choice(lista)
     return dic
-
 
 def indica_posicao(sorteada, string):
     i = 0
@@ -41,73 +36,65 @@ def indica_posicao(sorteada, string):
         i += 1
     return lista1
 
-
 n = 5
-filt = filtra(lista_palavras, n)
+filtrada = filtra(lista_palavras, n)
 
 
 j = 1
-dic = inicializa(filt)
-
+dic = inicializa(filtrada)
 
 d = ' --- --- --- --- ---'
-l1 = '|   |   |   |   |   |'
-l2 = '|   |   |   |   |   |'
-l3 = '|   |   |   |   |   |'
-l4 = '|   |   |   |   |   |'
-l5 = '|   |   |   |   |   |'
-l6 = '|   |   |   |   |   |'
+linha1 = '|   |   |   |   |   |'
+linha2 = '|   |   |   |   |   |'
+linha3 = '|   |   |   |   |   |'
+linha4 = '|   |   |   |   |   |'
+linha5 = '|   |   |   |   |   |'
+linha6 = '|   |   |   |   |   |'
 
-
-lin = [d, l1, l2, l3, l4, l5, l6]
-
+linha = [d, linha1, linha2, linha3, linha4, linha5, linha6]
 
 continua = True
 
-
 while continua:
     sorteada = dic['sorteada']
-    spec = str(input('Qual o seu palpite? '))
+    especulada = str(input('Qual é seu palpite? '))
 
-
-    if spec == 'desisto':
-        if input('Tem certeza que deseja desistir? [s/n] ') == 's':
-            print(f'>>> A palavra era: {sorteada}\n')
-            p = str(input('Deseja jogar novamente? [s/n] '))
-
+    if especulada == 'desisto':
+        if input('Tem certeza que deseja desistir da rodada? [s|n] ') == 's':
+            print(f'>>> Que deselegante desistir, a palavra era: {sorteada}\n')
+            p = str(input('Jogar novamente? [s|n] '))
 
             if p == 's':
-                filt = filtra(lista_palavras, n)
-                dic = inicializa(filt)
+                filtrada = filtra(lista_palavras, n)
+                dic = inicializa(filtrada)
                 j = 0
             else:
-                print('\n\n\nAté mais!')
+                print('\n\n\nAté a próxima!')
                 continua = False
-    elif len(spec) != 5:
-        print("São permitidas apenas palavras de 5 caractéres.")
-    elif spec not in filt:
-        print('Palavra inexistente')
-    elif spec not in dic['especuladas']:
+    elif len(especulada) != 5:
+        print("Apenas palavras de 5 letras são permitidas.")
+    elif especulada not in filtrada:
+        print('Palavra desconhecida')
+    elif especulada not in dic['especuladas']:
         j += 1
-        dic['especuladas'].append(spec)
-        resta = len(filt[0]) + 1 - j
-        tentativa = indica_posicao(sorteada, spec)
+        dic['especuladas'].append(especulada)
+        resta = len(filtrada[0]) + 1 - j
+        tentativa = indica_posicao(sorteada, especulada)
         acerto = tentativa.count(0)
 
-
-        for i in range(len(lin)):
+        for i in range(len(linha)):
             if i == j:
                 nova = '| '
             for x in range(len(tentativa)):
                 if tentativa[x] == 0:
-                    nova += Fore.RED + f'{spec[x]}' + Fore.RESET + ' | '
+                    nova += Fore.RED + f'{especulada[x]}' + Fore.RESET + ' | '
                 else:
-                    nova += f'{spec[x]}' + ' | '
-            lin[i] = nova
+                    nova += f'{especulada[x]}' + ' | '
+            linha[i] = nova
             if i != 0:
-                print(lin[i])
+                print(linha[i])
             print(d)
-           
+            
             if acerto == 5:
                 print(f'\n*** Parabéns! Você acertou após {j} tentativa(s)')
                 j = 0
@@ -115,6 +102,5 @@ while continua:
                 print(f'\nVocê tem {resta} tentativa(s)')
     else:
         print('Palavra já testada!')
-
 
 colorama.deinit()
